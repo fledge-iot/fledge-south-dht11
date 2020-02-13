@@ -35,7 +35,8 @@ _DEFAULT_CONFIG = {
         'type': 'string',
         'default': "dht11",
         'order': "1",
-        'displayName': 'Asset Name'
+        'displayName': 'Asset Name',
+        'mandatory': 'true'
     },
     'gpioPin': {
         'description': 'The GPIO pin into which the DHT11 data pin is connected', 
