@@ -8,7 +8,6 @@
 
 from datetime import datetime, timezone
 import copy
-import uuid
 import logging
 
 # TODO: https://github.com/adafruit/Adafruit_Python_DHT/issues/99
@@ -36,7 +35,8 @@ _DEFAULT_CONFIG = {
         'type': 'string',
         'default': "dht11",
         'order': "1",
-        'displayName': 'Asset Name'
+        'displayName': 'Asset Name',
+        'mandatory': 'true'
     },
     'gpioPin': {
         'description': 'The GPIO pin into which the DHT11 data pin is connected', 
@@ -64,7 +64,7 @@ def plugin_info():
 
     return {
         'name': 'DHT11 GPIO',
-        'version': '1.7.0',
+        'version': '1.8.0',
         'mode': 'poll',
         'type': 'south',
         'interface': '1.0',
@@ -108,7 +108,6 @@ def plugin_poll(handle):
             wrapper = {
                     'asset':     handle['assetName']['value'],
                     'timestamp': time_stamp,
-                    'key':       str(uuid.uuid4()),
                     'readings':  readings
             }
         else:
