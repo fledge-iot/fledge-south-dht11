@@ -8,7 +8,7 @@
 
 .. |C_version| raw:: html
 
-   <a href="../fledge-south-dht/index.html">C++ version</a>
+   <a href="../fledge-south-dht11_V2/index.html">C++ version</a>
 
 DHT11 (Python version)
 ======================
