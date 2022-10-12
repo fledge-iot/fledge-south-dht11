@@ -1,4 +1,4 @@
-Jtimestamps {
+timestamps {
     node("ubuntu18-agent") {
         catchError {
             checkout scm   
@@ -19,7 +19,7 @@ Jtimestamps {
             ).trim()
 
             if (platform != 'raspbian'){
-                echo "Not a  Raspbian Platform| Exiting."
+                echo "Not a  Raspbian Platform! Exiting."
                 return
             }
 
