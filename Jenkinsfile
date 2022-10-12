@@ -1,4 +1,4 @@
-timestamps {
+Jtimestamps {
     node("ubuntu18-agent") {
         catchError {
             checkout scm   
@@ -10,6 +10,16 @@ timestamps {
             if (dir_exists == 'N'){
                 currentBuild.result= 'FAILURE'
                 echo "No tests directory found! Exiting."
+                return
+            }
+
+            platform = sh (
+                script: "cat /etc/os-release | grep -w ID | cut -d= -f2",
+                returnStdout: true
+            ).trim()
+
+            if (platform != 'raspbian'){
+                echo "Not a  Raspbian Platform| Exiting."
                 return
             }
 
