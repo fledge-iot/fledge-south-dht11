@@ -12,7 +12,17 @@ timestamps {
                 echo "No tests directory found! Exiting."
                 return
             }
+            
+            platform = sh (
+                script: "cat /etc/os-release | grep -w ID | cut -d= -f2",
+                returnStdout: true
+            ).trim()
 
+            if (platform != 'raspbian'){
+                echo "Not a  Raspbian Platform! Exiting."
+                return
+            }
+            
             try {
                 stage("Prerequisites"){
                     // Change to corresponding CORE_BRANCH as required
