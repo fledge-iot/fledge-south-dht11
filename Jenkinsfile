@@ -1,5 +1,5 @@
 timestamps {
-    node("ubuntu18-agent") {
+    node("ubuntu-agent") {
         catchError {
             checkout scm   
             dir_exists = sh (
@@ -12,7 +12,7 @@ timestamps {
                 echo "No tests directory found! Exiting."
                 return
             }
-
+            
             platform = sh (
                 script: "cat /etc/os-release | grep -w ID | cut -d= -f2",
                 returnStdout: true
@@ -22,7 +22,7 @@ timestamps {
                 echo "Not a  Raspbian Platform! Exiting."
                 return
             }
-
+            
             try {
                 stage("Prerequisites"){
                     // Change to corresponding CORE_BRANCH as required
@@ -43,13 +43,12 @@ timestamps {
                     echo "Executing tests..."
                     sh '''
                         . ${WORKSPACE}/PLUGIN_PR_ENV/bin/activate
-                        export FLEDGE_ROOT=$HOME/fledge && export PYTHONPATH=$HOME/fledge/python
+                        export FLEDGE_ROOT=$HOME/fledge && export PYTHONPATH=$FLEDGE_ROOT/python
                         cd tests && python3 -m pytest -vv --ignore=system --ignore=api --junit-xml=test_result.xml
                     '''
                     echo "Done."
                 }
-            } catch (e) {
-                result = "TESTS FAILED" 
+            } catch (e) { 
                 currentBuild.result = 'FAILURE'
                 echo "Tests failed!"
             }
@@ -59,7 +58,6 @@ timestamps {
                     junit "tests/test_result.xml"
                 }
             } catch (e) {
-                result = "TEST REPORT GENERATION FAILED"
                 currentBuild.result = 'FAILURE'
                 echo "Failed to generate test reports!"
             }
